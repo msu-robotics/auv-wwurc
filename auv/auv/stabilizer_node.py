@@ -35,7 +35,7 @@ class StabilizerNode(Node):
         self.depth_pid = PID(2.0, 0.0, 0.5, "depth")
         self.yaw_pid = PID(1.5, 0.0, 0.2, "yaw")
 
-        self.depth = 0.0
+        self.depth = 10.0
         self.yaw = 0.0
         self.cmd_vel = Twist()
         self.last_time = self.get_clock().now()

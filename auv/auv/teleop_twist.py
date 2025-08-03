@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rclpy
-from rclpy.qos import qos_profile_default
+from rclpy.qos import QoSProfile
 
 from geometry_msgs.msg import Twist
 
@@ -79,6 +79,13 @@ def main():
 
     rclpy.init()
     node = rclpy.create_node('teleop_twist')
+
+    qos_profile_default = QoSProfile(
+        reliability=rclpy.qos.ReliabilityPolicy.RELIABLE,
+        durability=rclpy.qos.DurabilityPolicy.VOLATILE,
+        history=rclpy.qos.HistoryPolicy.KEEP_LAST,
+        depth=10
+    )
 
     pub = node.create_publisher(Twist, '/cmd_vel',     qos_profile_default)
 
