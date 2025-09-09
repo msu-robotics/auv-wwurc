@@ -27,11 +27,11 @@ RUN wget https://github.com/BehaviorTree/BehaviorTree.CPP/archive/refs/tags/4.7.
 
 # apt-get install -y libopencv-imgproc-dev
 
-RUN cd src && wget https://github.com/ros-drivers/usb_cam/archive/refs/tags/0.8.1.tar.gz  && \
+RUN cd /ros2_ws/src && wget https://github.com/ros-drivers/usb_cam/archive/refs/tags/0.8.1.tar.gz  && \
     tar -xf 0.8.1.tar.gz && rm 0.8.1.tar.gz && \
     wget https://github.com/ros-perception/image_transport_plugins/archive/refs/tags/6.1.0.tar.gz && \
     tar -xf 6.1.0.tar.gz && rm 6.1.0.tar.gz && rosdep update && \
-    apt update && apt install -y libogg-dev && \
+    apt update && apt install -y libogg-dev && cd .. &&\
     rosdep install --from-paths src --ignore-src -y
 
 
