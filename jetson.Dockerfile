@@ -23,17 +23,12 @@ RUN wget https://github.com/BehaviorTree/BehaviorTree.CPP/archive/refs/tags/4.7.
     pip3 install --ignore-installed PyYAML conan && conan profile detect && conan install . -of build_release --build missing -s build_type=Release && cmake -S . -B build_release -DCMAKE_TOOLCHAIN_FILE="build_release/conan_toolchain.cmake" && \
     cmake --build build_release
 
-# 10) Устанавливаем либы для работы с камерами
+# Устанавливаем либы для работы с камерами
 
-# apt-get install -y libopencv-imgproc-dev
-
-RUN cd /ros2_ws/src && wget https://github.com/ros-drivers/usb_cam/archive/refs/tags/0.8.1.tar.gz  && \
-    tar -xf 0.8.1.tar.gz && rm 0.8.1.tar.gz && \
-    wget https://github.com/ros-perception/image_transport_plugins/archive/refs/tags/6.1.0.tar.gz && \
-    tar -xf 6.1.0.tar.gz && rm 6.1.0.tar.gz && rosdep update && \
-    apt update && apt install -y libogg-dev && cd .. &&\
-    rosdep install --from-paths src --ignore-src -y
+RUN git clone --branch ${ROS_DISTRO} https://gitlab.com/boldhearts/ros2_v4l2_camera.git src/v4l2_camera && \
+    rosdep install --from-paths src/v4l2_camera --ignore-src -r -y && \
+    colcon build
 
 
-# 9) Точка входа
+# Точка входа
 # ENTRYPOINT ["/bin/bash","-c","if [ -f '/opt/ros/humble/setup.bash' ]; then source /opt/ros/humble/setup.bash; elif [ -f '/usr/local/setup.bash' ]; then source /usr/local/setup.bash; elif [ -f '/ros_entrypoint.sh' ]; then source /ros_entrypoint.sh; fi && source /ros2_ws/install/setup.bash"]
